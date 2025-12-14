@@ -1,0 +1,106 @@
+# Ag-diagram-maker 設定ファイル
+# このファイルをカスタマイズしてデフォルト動作を変更できます
+# スキーマ: .github/schemas/config.schema.json
+
+version: "5.0"
+
+# === パス設定 ===
+# 環境に応じてカスタマイズ可能
+paths:
+  output_base: "outputs"
+  workflow_dir: "outputs/.workflow"
+  cache_dir: "outputs/.cache"
+  archive_dir: "outputs/.archive"
+  schema_dir: ".github/schemas"
+  instructions_dir: ".github/instructions"
+  agents_dir: ".github/agents"
+
+# === 出力設定 ===
+output:
+  default_format: "drawio" # drawio | drawio.svg
+  naming_convention: "kebab-case" # kebab-case | snake_case | camelCase
+  on_duplicate: "auto_rename" # prompt | auto_rename | overwrite | error
+  auto_rename_format: "{base}_{nn}.{ext}"
+
+# === キャンバス設定 ===
+canvas:
+  default_page_size: "A4" # A4 | A3 | Letter
+  default_orientation: "portrait" # portrait | landscape
+  margin:
+    top: 40
+    right: 40
+    bottom: 40
+    left: 40
+  grid:
+    enabled: true
+    size: 10
+    snap: true
+
+# === レイアウト設定 ===
+layout:
+  default_type: "hierarchical" # hierarchical | organic | grid | manual
+  default_direction: "TB" # TB | BT | LR | RL
+  spacing:
+    horizontal: 60
+    vertical: 80
+  grid_columns: 3
+
+# === スタイル設定 ===
+style:
+  default_color_scheme: "corporate" # corporate | pastel | monochrome | azure | aws
+  default_font_family: "Helvetica"
+  default_font_size: 12
+  node_defaults:
+    width: 120
+    height: 60
+    rounded: true
+  edge_defaults:
+    stroke_width: 1
+    orthogonal: true
+    curved: false
+
+# === 検証設定 ===
+validation:
+  strict_mode: true # 厳格モード（警告もブロッキング）
+  max_elements: 100 # 最大要素数
+  max_connections: 200 # 最大接続数
+  max_label_length: 100 # 最大ラベル長
+  require_output_path: true
+
+# === ワークフロー設定 ===
+workflow:
+  max_iterations:
+    simple: 3
+    moderate: 4
+    complex: 5
+  quality_thresholds:
+    simple: 85
+    moderate: 90
+    complex: 95
+  checkpoint_enabled: true
+  auto_recovery: true
+
+# === キャッシュ設定 ===
+cache:
+  enabled: true
+  analysis_ttl_hours: 24
+  mcp_ttl_hours: 1
+  max_cache_size_mb: 100
+
+# === ロギング設定 ===
+logging:
+  level: "INFO" # DEBUG | INFO | WARN | ERROR
+  ir_archiving: "latest_only" # all | latest_only | none
+  retention_days: 7
+  verbose_errors: true
+
+# === LLM設定（決定論化） ===
+llm:
+  temperature: 0 # 0 = 完全に決定的
+  seed_from_workflow_id: true
+
+# === MCP設定 ===
+mcp:
+  enabled: true
+  azure_keyword_trigger: "Azure|Microsoft|Power|Office|Teams|Entra|Intune"
+  aws_keyword_trigger: "AWS|Amazon|EC2|S3|Lambda|EKS|VPC"

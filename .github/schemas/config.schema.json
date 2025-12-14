@@ -1,0 +1,365 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ag-diagram-maker.example.com/schemas/config.schema.json",
+  "title": "AgDiagramMakerConfig",
+  "description": "Ag-diagram-maker v5.0 の環境設定スキーマ",
+  "type": "object",
+  "required": ["version"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "5.0",
+      "description": "設定スキーマバージョン"
+    },
+    "paths": {
+      "type": "object",
+      "description": "パス設定（すべてワークスペースルートからの相対パス）",
+      "additionalProperties": false,
+      "properties": {
+        "output_base": {
+          "type": "string",
+          "default": "outputs",
+          "description": "成果物出力ディレクトリ"
+        },
+        "workflow_dir": {
+          "type": "string",
+          "default": "outputs/.workflow",
+          "description": "ワークフロー状態ディレクトリ"
+        },
+        "cache_dir": {
+          "type": "string",
+          "default": "outputs/.cache",
+          "description": "キャッシュディレクトリ"
+        },
+        "archive_dir": {
+          "type": "string",
+          "default": "outputs/.archive",
+          "description": "アーカイブディレクトリ"
+        },
+        "schema_dir": {
+          "type": "string",
+          "default": ".github/schemas",
+          "description": "スキーマファイルディレクトリ"
+        },
+        "instructions_dir": {
+          "type": "string",
+          "default": ".github/instructions",
+          "description": "インストラクションディレクトリ"
+        },
+        "agents_dir": {
+          "type": "string",
+          "default": ".github/agents",
+          "description": "エージェント定義ディレクトリ"
+        }
+      }
+    },
+    "output": {
+      "type": "object",
+      "description": "出力設定",
+      "additionalProperties": false,
+      "properties": {
+        "default_format": {
+          "type": "string",
+          "enum": ["drawio", "drawio.svg"],
+          "default": "drawio",
+          "description": "デフォルト出力形式"
+        },
+        "naming_convention": {
+          "type": "string",
+          "enum": ["kebab-case", "snake_case", "camelCase"],
+          "default": "kebab-case",
+          "description": "ファイル名命名規則"
+        },
+        "on_duplicate": {
+          "type": "string",
+          "enum": ["prompt", "auto_rename", "overwrite", "error"],
+          "default": "auto_rename",
+          "description": "ファイル重複時のアクション"
+        },
+        "auto_rename_format": {
+          "type": "string",
+          "default": "{base}_{nn}.{ext}",
+          "description": "自動リネームフォーマット"
+        }
+      }
+    },
+    "canvas": {
+      "type": "object",
+      "description": "キャンバスデフォルト設定",
+      "additionalProperties": false,
+      "properties": {
+        "default_page_size": {
+          "type": "string",
+          "enum": ["A4", "A3", "Letter"],
+          "default": "A4",
+          "description": "デフォルトページサイズ"
+        },
+        "default_orientation": {
+          "type": "string",
+          "enum": ["portrait", "landscape"],
+          "default": "portrait",
+          "description": "デフォルト向き"
+        },
+        "margin": {
+          "type": "object",
+          "properties": {
+            "top": { "type": "integer", "default": 40 },
+            "right": { "type": "integer", "default": 40 },
+            "bottom": { "type": "integer", "default": 40 },
+            "left": { "type": "integer", "default": 40 }
+          }
+        },
+        "grid": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "size": { "type": "integer", "default": 10 },
+            "snap": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "description": "レイアウトデフォルト設定",
+      "additionalProperties": false,
+      "properties": {
+        "default_type": {
+          "type": "string",
+          "enum": ["hierarchical", "organic", "grid", "manual"],
+          "default": "hierarchical",
+          "description": "デフォルトレイアウトタイプ"
+        },
+        "default_direction": {
+          "type": "string",
+          "enum": ["TB", "BT", "LR", "RL"],
+          "default": "TB",
+          "description": "デフォルト方向（hierarchical用）"
+        },
+        "spacing": {
+          "type": "object",
+          "properties": {
+            "horizontal": { "type": "integer", "default": 60 },
+            "vertical": { "type": "integer", "default": 80 }
+          }
+        },
+        "grid_columns": {
+          "type": "integer",
+          "default": 3,
+          "description": "グリッドレイアウトのデフォルト列数"
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "description": "スタイルデフォルト設定",
+      "additionalProperties": false,
+      "properties": {
+        "default_color_scheme": {
+          "type": "string",
+          "enum": [
+            "corporate",
+            "pastel",
+            "monochrome",
+            "azure",
+            "aws",
+            "custom"
+          ],
+          "default": "corporate",
+          "description": "デフォルトカラースキーム"
+        },
+        "default_font_family": {
+          "type": "string",
+          "default": "Helvetica",
+          "description": "デフォルトフォント"
+        },
+        "default_font_size": {
+          "type": "integer",
+          "default": 12,
+          "description": "デフォルトフォントサイズ"
+        },
+        "node_defaults": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer", "default": 120 },
+            "height": { "type": "integer", "default": 60 },
+            "rounded": { "type": "boolean", "default": true }
+          }
+        },
+        "edge_defaults": {
+          "type": "object",
+          "properties": {
+            "stroke_width": { "type": "integer", "default": 1 },
+            "orthogonal": { "type": "boolean", "default": true },
+            "curved": { "type": "boolean", "default": false }
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "description": "検証設定",
+      "additionalProperties": false,
+      "properties": {
+        "strict_mode": {
+          "type": "boolean",
+          "default": true,
+          "description": "厳格モード（警告もブロッキング）"
+        },
+        "max_elements": {
+          "type": "integer",
+          "default": 100,
+          "description": "最大要素数"
+        },
+        "max_connections": {
+          "type": "integer",
+          "default": 200,
+          "description": "最大接続数"
+        },
+        "max_label_length": {
+          "type": "integer",
+          "default": 100,
+          "description": "最大ラベル長"
+        },
+        "require_output_path": {
+          "type": "boolean",
+          "default": true,
+          "description": "出力パス必須"
+        }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "description": "ワークフロー設定",
+      "additionalProperties": false,
+      "properties": {
+        "max_iterations": {
+          "type": "object",
+          "description": "複雑度別最大イテレーション",
+          "properties": {
+            "simple": { "type": "integer", "default": 3 },
+            "moderate": { "type": "integer", "default": 4 },
+            "complex": { "type": "integer", "default": 5 }
+          }
+        },
+        "quality_thresholds": {
+          "type": "object",
+          "description": "複雑度別品質閾値",
+          "properties": {
+            "simple": { "type": "integer", "default": 85 },
+            "moderate": { "type": "integer", "default": 90 },
+            "complex": { "type": "integer", "default": 95 }
+          }
+        },
+        "checkpoint_enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "チェックポイント有効化"
+        },
+        "auto_recovery": {
+          "type": "boolean",
+          "default": true,
+          "description": "自動リカバリ有効化"
+        }
+      }
+    },
+    "cache": {
+      "type": "object",
+      "description": "キャッシュ設定",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "キャッシュ有効化"
+        },
+        "analysis_ttl_hours": {
+          "type": "integer",
+          "default": 24,
+          "description": "分析キャッシュTTL（時間）"
+        },
+        "mcp_ttl_hours": {
+          "type": "integer",
+          "default": 1,
+          "description": "MCPキャッシュTTL（時間）"
+        },
+        "max_cache_size_mb": {
+          "type": "integer",
+          "default": 100,
+          "description": "最大キャッシュサイズ（MB）"
+        }
+      }
+    },
+    "logging": {
+      "type": "object",
+      "description": "ロギング設定",
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARN", "ERROR"],
+          "default": "INFO",
+          "description": "ログレベル"
+        },
+        "ir_archiving": {
+          "type": "string",
+          "enum": ["all", "latest_only", "none"],
+          "default": "latest_only",
+          "description": "IRアーカイブモード"
+        },
+        "retention_days": {
+          "type": "integer",
+          "default": 7,
+          "description": "ログ保持日数"
+        },
+        "verbose_errors": {
+          "type": "boolean",
+          "default": true,
+          "description": "詳細エラー情報"
+        }
+      }
+    },
+    "llm": {
+      "type": "object",
+      "description": "LLM設定（決定論化）",
+      "additionalProperties": false,
+      "properties": {
+        "temperature": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2,
+          "default": 0,
+          "description": "温度パラメータ（0=決定的）"
+        },
+        "seed_from_workflow_id": {
+          "type": "boolean",
+          "default": true,
+          "description": "ワークフローIDからシード生成"
+        }
+      }
+    },
+    "mcp": {
+      "type": "object",
+      "description": "MCP（Microsoft Docs）設定",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "MCP有効化"
+        },
+        "azure_keyword_trigger": {
+          "type": "string",
+          "default": "Azure|Microsoft|Power|Office|Teams|Entra|Intune",
+          "description": "Azure関連キーワード（正規表現）"
+        },
+        "aws_keyword_trigger": {
+          "type": "string",
+          "default": "AWS|Amazon|EC2|S3|Lambda|EKS|VPC",
+          "description": "AWS関連キーワード（正規表現）"
+        }
+      }
+    }
+  }
+}

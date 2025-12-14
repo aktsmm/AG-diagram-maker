@@ -1,0 +1,451 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ag-diagram-maker.example.com/schemas/diagram-ir.schema.json",
+  "title": "DiagramIR",
+  "description": "Ag-diagram-maker v5.0 の中間表現（Intermediate Representation）スキーマ。全エージェント間でのデータ受け渡しに使用。",
+  "type": "object",
+  "required": ["version", "metadata", "canvas", "elements", "connections"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "5.0",
+      "description": "IRスキーマバージョン"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "図のメタ情報",
+      "required": ["id", "title", "purpose", "created_at", "source_type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+          "description": "UUID形式のワークフローID"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "図のタイトル"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "description": "図の目的・用途"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601形式の作成日時"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": ["text", "visual", "portrait"],
+          "description": "入力ソースの種類"
+        },
+        "input_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA256入力ハッシュ（冪等性キー）"
+        },
+        "author": {
+          "type": "string",
+          "description": "作成者（任意）"
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "タグ（任意）"
+        }
+      }
+    },
+    "canvas": {
+      "type": "object",
+      "description": "キャンバス設定",
+      "required": ["page_size", "orientation"],
+      "additionalProperties": false,
+      "properties": {
+        "page_size": {
+          "type": "string",
+          "enum": ["A4", "A3", "Letter", "custom"],
+          "description": "ページサイズ"
+        },
+        "orientation": {
+          "type": "string",
+          "enum": ["portrait", "landscape"],
+          "description": "向き"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000,
+          "description": "カスタム幅（px）- page_size=customの場合必須"
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 10000,
+          "description": "カスタム高さ（px）- page_size=customの場合必須"
+        },
+        "background_color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "default": "#FFFFFF",
+          "description": "背景色（16進数）"
+        },
+        "grid": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": true },
+            "size": {
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 50,
+              "default": 10
+            }
+          }
+        }
+      },
+      "if": {
+        "properties": { "page_size": { "const": "custom" } }
+      },
+      "then": {
+        "required": ["width", "height"]
+      }
+    },
+    "layout": {
+      "type": "object",
+      "description": "レイアウト設定",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["hierarchical", "organic", "grid", "circle", "manual"],
+          "description": "レイアウトアルゴリズム"
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["TB", "BT", "LR", "RL"],
+          "description": "hierarchical用の方向"
+        },
+        "spacing": {
+          "type": "object",
+          "properties": {
+            "horizontal": { "type": "integer", "minimum": 20, "default": 60 },
+            "vertical": { "type": "integer", "minimum": 20, "default": 80 }
+          }
+        },
+        "columns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "grid用の列数"
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "description": "グローバルスタイル設定",
+      "additionalProperties": false,
+      "properties": {
+        "color_scheme": {
+          "type": "string",
+          "enum": [
+            "corporate",
+            "pastel",
+            "monochrome",
+            "azure",
+            "aws",
+            "custom"
+          ],
+          "default": "corporate"
+        },
+        "font_family": {
+          "type": "string",
+          "default": "Helvetica"
+        },
+        "font_size": {
+          "type": "integer",
+          "minimum": 8,
+          "maximum": 24,
+          "default": 12
+        },
+        "colors": {
+          "type": "object",
+          "properties": {
+            "primary": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "secondary": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "accent": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "success": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "warning": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "error": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+          }
+        }
+      }
+    },
+    "elements": {
+      "type": "array",
+      "description": "ノード（頂点）定義",
+      "items": {
+        "$ref": "#/$defs/Element"
+      },
+      "minItems": 1
+    },
+    "connections": {
+      "type": "array",
+      "description": "エッジ（接続）定義",
+      "items": {
+        "$ref": "#/$defs/Connection"
+      }
+    },
+    "groups": {
+      "type": "array",
+      "description": "グループ/コンテナ定義",
+      "items": {
+        "$ref": "#/$defs/Group"
+      }
+    },
+    "output": {
+      "type": "object",
+      "description": "出力設定",
+      "required": ["path", "format"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^outputs/[a-z0-9-]+\\.(drawio|drawio\\.svg)$",
+          "description": "出力ファイルパス（kebab-case）"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["drawio", "drawio.svg"],
+          "default": "drawio",
+          "description": "出力形式（drawio推奨）"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "Element": {
+      "type": "object",
+      "description": "ノード（頂点）の定義",
+      "required": ["id", "type", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "一意識別子（英字始まり）"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "rectangle",
+            "rounded_rectangle",
+            "ellipse",
+            "diamond",
+            "cylinder",
+            "parallelogram",
+            "cloud",
+            "actor",
+            "document",
+            "hexagon",
+            "azure_vm",
+            "azure_vnet",
+            "azure_storage",
+            "azure_sql",
+            "azure_app_service",
+            "azure_function",
+            "azure_aks",
+            "azure_firewall",
+            "azure_load_balancer",
+            "aws_ec2",
+            "aws_vpc",
+            "aws_s3",
+            "aws_rds",
+            "aws_lambda",
+            "aws_eks",
+            "custom"
+          ],
+          "description": "ノードタイプ"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "表示ラベル"
+        },
+        "position": {
+          "type": "object",
+          "description": "位置（manual layout時必須）",
+          "required": ["x", "y"],
+          "properties": {
+            "x": { "type": "integer", "minimum": 0 },
+            "y": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "size": {
+          "type": "object",
+          "description": "サイズ（省略時はデフォルト）",
+          "properties": {
+            "width": {
+              "type": "integer",
+              "minimum": 20,
+              "maximum": 500,
+              "default": 120
+            },
+            "height": {
+              "type": "integer",
+              "minimum": 20,
+              "maximum": 500,
+              "default": 60
+            }
+          }
+        },
+        "style": {
+          "type": "object",
+          "description": "個別スタイル（グローバルを上書き）",
+          "properties": {
+            "fill_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "stroke_color": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "font_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "font_size": { "type": "integer", "minimum": 8, "maximum": 24 },
+            "rounded": { "type": "boolean" },
+            "opacity": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "parent_group": {
+          "type": "string",
+          "description": "所属グループID"
+        },
+        "tooltip": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "ツールチップテキスト"
+        },
+        "link": {
+          "type": "string",
+          "format": "uri",
+          "description": "リンクURL"
+        }
+      }
+    },
+    "Connection": {
+      "type": "object",
+      "description": "エッジ（接続）の定義",
+      "required": ["id", "from", "to"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+          "description": "一意識別子"
+        },
+        "from": {
+          "type": "string",
+          "description": "始点ノードID"
+        },
+        "to": {
+          "type": "string",
+          "description": "終点ノードID"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["arrow", "line", "bidirectional", "dashed", "dotted"],
+          "default": "arrow",
+          "description": "接続タイプ"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "エッジラベル"
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "stroke_color": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "stroke_width": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "default": 1
+            },
+            "curved": { "type": "boolean", "default": false },
+            "orthogonal": { "type": "boolean", "default": true }
+          }
+        },
+        "waypoints": {
+          "type": "array",
+          "description": "中間点（オプション）",
+          "items": {
+            "type": "object",
+            "required": ["x", "y"],
+            "properties": {
+              "x": { "type": "integer" },
+              "y": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "Group": {
+      "type": "object",
+      "description": "グループ/コンテナの定義",
+      "required": ["id", "label", "members"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$",
+          "description": "一意識別子"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "グループラベル"
+        },
+        "members": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "所属ノードIDの配列"
+        },
+        "position": {
+          "type": "object",
+          "properties": {
+            "x": { "type": "integer", "minimum": 0 },
+            "y": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "size": {
+          "type": "object",
+          "properties": {
+            "width": { "type": "integer", "minimum": 100 },
+            "height": { "type": "integer", "minimum": 100 }
+          }
+        },
+        "style": {
+          "type": "object",
+          "properties": {
+            "fill_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "stroke_color": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "collapsed": { "type": "boolean", "default": false }
+          }
+        }
+      }
+    }
+  }
+}

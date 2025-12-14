@@ -1,0 +1,55 @@
+# ===== OS =====
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# ===== Editor / IDE =====
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+*.swp
+*.swo
+*~
+
+# ===== Node.js =====
+node_modules/
+.npm-cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== Build =====
+dist/
+build/
+coverage/
+*.log
+*.tmp
+
+# ===== Environment =====
+.env
+.env.local
+.env.*.local
+
+# ===== Inputs =====
+# 入力ファイルはサンプルのみ追跡
+inputs/*
+!inputs/Sample-jiki-kikan-system-vdi-requirements.md
+!inputs/Sample_20251114_procurement_request_for_information_outline_02.xlsx
+!inputs/Sample_Azure_Architecture.png
+
+# ===== Image Manifest =====
+# 生成時の中間マニフェストは追跡しない
+image_manifest/*
+!image_manifest/.gitkeep
+
+# ===== Outputs =====
+# 生成した図面は追跡しない（サンプルのみ .gitkeep で維持）
+outputs/*
+!outputs/.gitkeep
+
+# ===== AI/LLM =====
+# Copilot/AI生成の一時キャッシュ
+.copilot/
+.aider/
