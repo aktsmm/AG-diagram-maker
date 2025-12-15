@@ -27,13 +27,14 @@ VS Code の [Draw.io Integration](https://marketplace.visualstudio.com/items?ite
 ### 前提条件・セットアップ
 
 1. **VS Code** + **GitHub Copilot** サブスクリプション
-2. 拡張機能をインストール：
+2. [**GitHub CLI**](https://cli.github.com/) (`gh`) のインストール（推奨）
+3. 拡張機能をインストール：
    - [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) - Draw.io 編集（必須）
    - [Excel Viewer](https://marketplace.visualstudio.com/items?itemName=GrapeCity.gc-excelviewer) - Excel プレビュー（推奨）
-3. リポジトリをクローン：
+4. リポジトリをクローン（もちろんフォークしても OK！）：
    ```bash
-   git clone https://github.com/<your-username>/AG-Diagram Maker.git
-   cd AG-Diagram Maker && code .
+   git clone https://github.com/aktsmm/Ag-diagram-maker.git
+   cd Ag-diagram-maker && code .
    ```
 
 ### ☁️ クラウドアイコンの有効化（Azure / AWS）
