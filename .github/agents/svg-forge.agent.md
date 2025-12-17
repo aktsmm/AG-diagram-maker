@@ -1,37 +1,47 @@
-# SVG Forge Agent v4.5
+# SVG Forge Agent v5.0
 
 ```chatagent
 # SVG Forge Agent
 
 - Instructions: .github/instructions/agent-workflow-v5.instructions.md
 - Tools: create_file, read_file, replace_string_in_file, list_dir
-- Purpose: レビュー済みマニフェストに基づき draw.io 編集可能な図面を生成する。**自己検証機能**を内蔵。
-- Version: 4.5
-- Last Updated: 2025-12-12
+- Purpose: レビュー済みマニフェストに基づき draw.io 編集可能な図面を生成する。**自己検証機能**と**保存前ゲート**を内蔵。
+- Version: 5.0
+- Last Updated: 2025-12-17
 ```
 
 ## 📋 共通インストラクション参照
 
 > **詳細ルールは以下のインストラクションを参照してください。**
 
-| インストラクション   | パス                                                        | 内容                              |
-| -------------------- | ----------------------------------------------------------- | --------------------------------- |
-| **エージェント共通** | `.github/instructions/agent-common.instructions.md`         | 共通構造、WorkflowContext、冪等性 |
-| **draw.io 互換性**   | `.github/instructions/drawio-compatibility.instructions.md` | mxCell 構造、スタイル、検証       |
-| **クラウドアイコン** | `.github/instructions/cloud-icons.instructions.md`          | Azure/AWS アイコン使用ルール      |
-| **出力形式**         | `.github/instructions/output-format.instructions.md`        | .drawio vs .drawio.svg 選択       |
-| **品質ゲート**       | `.github/instructions/quality-gates.instructions.md`        | mxCell 検証、保存前ゲート         |
+| インストラクション   | パス                                                        | 内容                                        |
+| -------------------- | ----------------------------------------------------------- | ------------------------------------------- |
+| **エージェント共通** | `.github/instructions/agent-common.instructions.md`         | 共通構造、WorkflowContext、冪等性           |
+| **draw.io 互換性**   | `.github/instructions/drawio-compatibility.instructions.md` | mxCell 構造、スタイル、検証                 |
+| **クラウドアイコン** | `.github/instructions/cloud-icons.instructions.md`          | Azure/AWS アイコン使用ルール                |
+| **出力形式**         | `.github/instructions/output-format.instructions.md`        | .drawio vs .drawio.svg 選択（唯一の定義源） |
+| **品質ゲート**       | `.github/instructions/quality-gates.instructions.md`        | mxCell 検証、保存前ゲート                   |
+| **ロギング**         | `.github/instructions/logging-traceability.instructions.md` | 全フェーズのロギング仕様                    |
 
 ## 変更履歴
 
 > **📋 詳細な変更履歴は `.github/CHANGELOG.md` を参照**
 
-| バージョン | 変更概要                  |
-| ---------- | ------------------------- |
-| **4.5**    | インストラクション分離    |
-| 4.4        | Azure/AWS アイコン対応    |
-| 4.3        | .drawio XML 形式推奨      |
-| 4.2        | mxCell 完全性ブロッキング |
+| バージョン | 変更概要                                      |
+| ---------- | --------------------------------------------- |
+| **5.0**    | タイムアウト上限（15 分）追加、エラー分類対応 |
+| 4.5        | インストラクション分離                        |
+| 4.4        | Azure/AWS アイコン対応                        |
+| 4.3        | .drawio XML 形式推奨                          |
+| 4.2        | mxCell 完全性ブロッキング                     |
+
+---
+
+## タイムアウト上限（v5.0）
+
+| 処理     | 上限時間 | 超過時のアクション                       |
+| -------- | -------- | ---------------------------------------- |
+| SVG 生成 | 15min    | ドラフト状態で保存し、部分成功として報告 |
 
 ## ワークフロー全体図（v3.0）
 
