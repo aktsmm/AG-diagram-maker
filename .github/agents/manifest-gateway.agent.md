@@ -1,4 +1,4 @@
-# Manifest Gateway Agent v4.5
+# Manifest Gateway Agent v5.0
 
 ```chatagent
 # Manifest Gateway Agent
@@ -6,29 +6,73 @@
 - Instructions: .github/instructions/agent-workflow-v5.instructions.md
 - Tools: create_file, read_file, semantic_search, mcp_microsoftdocs_microsoft_docs_search, list_dir
 - Purpose: 全入力タイプ（text/visual/portrait）に対応した統合マニフェスト作成エージェント
-- Version: 4.5
-- Last Updated: 2025-12-12
+- Version: 5.0
+- Last Updated: 2025-12-17
 ```
 
 ## 📋 共通インストラクション参照
 
 > **詳細ルールは以下のインストラクションを参照してください。**
 
-| インストラクション   | パス                                                     | 内容                                |
-| -------------------- | -------------------------------------------------------- | ----------------------------------- |
-| **エージェント共通** | `.github/instructions/agent-common.instructions.md`      | 共通構造、WorkflowContext、MCP 活用 |
-| **ワークフロー**     | `.github/instructions/agent-workflow-v5.instructions.md` | 全体ワークフロー定義 (v5.0)         |
-| **クラウドアイコン** | `.github/instructions/cloud-icons.instructions.md`       | Azure/AWS アイコン使用ルール        |
+| インストラクション   | パス                                                        | 内容                                        |
+| -------------------- | ----------------------------------------------------------- | ------------------------------------------- |
+| **エージェント共通** | `.github/instructions/agent-common.instructions.md`         | 共通構造、WorkflowContext、MCP 活用         |
+| **ワークフロー**     | `.github/instructions/agent-workflow-v5.instructions.md`    | 全体ワークフロー定義 (v5.0)                 |
+| **クラウドアイコン** | `.github/instructions/cloud-icons.instructions.md`          | Azure/AWS アイコン使用ルール                |
+| **出力形式**         | `.github/instructions/output-format.instructions.md`        | .drawio vs .drawio.svg 選択（唯一の定義源） |
+| **ロギング**         | `.github/instructions/logging-traceability.instructions.md` | 全フェーズのロギング仕様                    |
 
 ## 変更履歴
 
 > **📋 詳細な変更履歴は `.github/CHANGELOG.md` を参照**
 
-| バージョン | 変更概要               |
-| ---------- | ---------------------- |
-| **4.5**    | インストラクション分離 |
-| 4.1        | ファイル重複チェック   |
-| 3.0        | 3 Gateway を統合       |
+| バージョン | 変更概要                                    |
+| ---------- | ------------------------------------------- |
+| **5.0**    | 高速パス対応、タイムアウト上限（10 分）追加 |
+| 4.5        | インストラクション分離                      |
+| 4.1        | ファイル重複チェック                        |
+| 3.0        | 3 Gateway を統合                            |
+
+---
+
+## タイムアウト上限（v5.0）
+
+| 処理             | 上限時間 | 超過時のアクション                       |
+| ---------------- | -------- | ---------------------------------------- |
+| マニフェスト作成 | 10min    | ドラフト状態で保存し、部分成功として報告 |
+
+---
+
+## 高速パス（Fast Path）v5.0
+
+> **以下の条件をすべて満たす場合、簡略化された処理で高速生成**
+
+```yaml
+fast_path:
+  eligibility:
+    all_conditions_must_be_true:
+      - "entities.length <= 3"
+      - "groups.length == 0"
+      - "no_azure_keywords_in_input"
+      - "matches_known_template"
+
+  template_patterns:
+    simple_flowchart:
+      nodes: ["開始", "処理", "終了"]
+      layout: "top-to-bottom"
+    simple_decision:
+      nodes: ["開始", "判断", "Yes処理", "No処理", "終了"]
+      layout: "top-to-bottom"
+    simple_sequence:
+      nodes: ["ステップ1", "ステップ2", "ステップ3"]
+      layout: "left-to-right"
+
+  on_eligible:
+    skip_steps:
+      - 2_entity_extraction (use template nodes)
+      - 3_relationship_extraction (use template edges)
+    estimated_time: "2min (vs normal 8min)"
+```
 
 ## v3.0 統合の意義（継続）
 
