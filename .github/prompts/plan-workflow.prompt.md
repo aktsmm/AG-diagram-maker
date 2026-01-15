@@ -5,6 +5,7 @@
 ## 前提条件
 
 - 参照: `AGENTS.md` (利用可能なエージェント一覧)
+- 参照: `.github/instructions/agents/agent-design.instructions.md` (設計原則)
 
 ## 指示
 
@@ -17,10 +18,51 @@
 
 ## 出力例
 
+### ステップ形式
+
 1. **Step 1: 要件定義**
-   - Agent: `issue.agent.md`
-   - Goal: ユーザーの要望を整理し、Issue を作成する。
+   - Agent: `.github/agents/orchestrator.agent.md`
+   - Goal: ユーザーの要望を整理し、必要なら新規エージェント作成を提案する。
+   - Output: `docs/requirements.md`（要件の叩き台）
 2. **Step 2: 実装計画**
-   - Agent: `plan.agent.md`
-   - Input: Step 1 で作成された Issue
+   - Agent: `.github/agents/sample.agent.md`（※用途に応じて適切なエージェントに差し替え）
+   - Input: Step 1 の `docs/requirements.md`
    - Goal: 実装方針を `docs/plan.md` にまとめる。
+
+### runSubagent 呼び出し例
+
+```javascript
+// Step 1: 要件整理（オーケストレーター）
+runSubagent({
+  prompt: `
+    ユーザーの要望を分析し、必要なタスクを洗い出してください。
+    出力: docs/requirements.md に要件をまとめる。
+  `,
+  description: "要件整理",
+});
+
+// Step 2: 実装（直列実行 - 前のステップの結果を待つ）
+runSubagent({
+  prompt: `
+    docs/requirements.md を読み込み、実装計画を立ててください。
+    出力: docs/plan.md に計画をまとめる。
+  `,
+  description: "実装計画",
+});
+
+// Step 3: レビュー
+runSubagent({
+  prompt: `
+    docs/plan.md をレビューし、問題点があれば指摘してください。
+    出力: レビュー結果をユーザーに報告。
+  `,
+  description: "計画レビュー",
+});
+```
+
+## 注意事項
+
+- **直列実行のみ**: runSubagent は並列実行不可。前のステップ完了を待ってから次へ。
+- **サマリ粒度**: 各ステップの成果物は明確に定義し、次のステップで参照可能にする。
+- **エラーハンドリング**: 途中で失敗した場合の対応方針も計画に含める。
+- **人間チェックポイント**: 重要な判断が必要な箇所では確認を挟む。

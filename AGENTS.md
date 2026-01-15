@@ -108,3 +108,15 @@ USER INPUT
 | **mxCell 完全性**    | mxCell 数 >= 2 + ノード数 + エッジ数         | `quality-gates` |
 | **保存前ゲート**     | 検証失敗時はファイル保存をブロック           | `quality-gates` |
 | **クラウドアイコン** | Azure/AWS 公式アイコンを使用                 | `cloud-icons`   |
+
+<!-- skill-ninja-START -->
+## Installed Skills
+
+The following skills are available in this workspace.
+
+| Skill | When to Use |
+|-------|-------------|
+| [agentic-workflow-guide](.github/skills/agentic-workflow-guide/SKILL.md) | **New Workflow Design** - Define agent roles, responsibilities, and execution order |
+| [skill-creator](.github/skills/skill-creator/SKILL.md) | This skill provides guidance for creating effective skills. |
+
+<!-- skill-ninja-END -->

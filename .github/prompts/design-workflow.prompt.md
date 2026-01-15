@@ -5,7 +5,7 @@
 
 ## 前提条件
 
-- 参照: `.github/instructions/agent-design.instructions.md` (オーケストレーションの原則)
+- 参照: `.github/instructions/agents/agent-design.instructions.md` (オーケストレーションの原則)
 
 ## 指示
 

@@ -135,233 +135,241 @@ node_placement:
       style: "shape=document;whiteSpace=wrap;html=1;boundedLbl=1;"
 
   # ===========================================
-  # Azure アイコン (mxgraph.azure.*)
+  # Azure アイコン (img/lib/azure2/* 形式)
   # ===========================================
-  # Azure アイコンが利用可能な場合は優先使用。
-  # 該当アイコンがない場合は上記の汎用形状で代替可。
+  # ⚠️ 重要: VS Code Draw.io Integration での互換性を確保するため
+  # `shape=mxgraph.azure.*` 形式は使用禁止
+  # `image=img/lib/azure2/**/*.svg` 形式を必須とする
+  #
+  # 詳細は cloud-icons.instructions.md を参照
   azure_icons:
     # ----- Compute -----
     virtual_machine:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;outlineConnect=0;align=center;shape=mxgraph.azure.virtual_machine;"
-      default_size: { width: 50, height: 43 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/compute/Virtual_Machine.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     virtual_machine_scale_set:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.vm_scale_set;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/compute/Virtual_Machine_Scale_Sets.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     app_service:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.app_service;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/compute/App_Services.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 64, height: 64 }
       fallback: "rounded_rectangle"
 
     function_app:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.function_apps;"
-      default_size: { width: 50, height: 44 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/compute/Function_Apps.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 60 }
       fallback: "rounded_rectangle"
 
     container_instances:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.container_instances;"
-      default_size: { width: 50, height: 42 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/containers/Container_Instances.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 60 }
       fallback: "rectangle"
 
     kubernetes_service:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.kubernetes;"
-      default_size: { width: 50, height: 44 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/containers/Kubernetes_Services.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 60 }
       fallback: "rectangle"
 
     # ----- Networking -----
     virtual_network:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.virtual_network;"
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Virtual_Networks.svg;verticalLabelPosition=bottom;verticalAlign=top;"
       default_size: { width: 67, height: 40 }
       fallback: "cloud"
 
     subnet:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.subnet;"
-      default_size: { width: 50, height: 28 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Subnet.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 41 }
       fallback: "rounded_rectangle"
 
     azure_firewall:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#E65100;shape=mxgraph.azure.azure_firewall;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Azure_Firewall.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 71, height: 60 }
       fallback: "diamond"
 
     application_gateway:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.application_gateway;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Application_Gateways.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 64, height: 64 }
       fallback: "diamond"
 
     load_balancer:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.load_balancer_generic;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Load_Balancers.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 72, height: 72 }
       fallback: "ellipse"
 
+    front_door:
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Front_Doors.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 52 }
+      fallback: "diamond"
+
     public_ip:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.public_ip_address;"
-      default_size: { width: 50, height: 40 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Public_IP_Addresses.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 65, height: 52 }
       fallback: "ellipse"
 
     network_security_group:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#68217A;shape=mxgraph.azure.network_security_group;"
-      default_size: { width: 34, height: 40 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Network_Security_Groups.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     route_table:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.route_table;"
-      default_size: { width: 40, height: 40 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Route_Tables.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     vpn_gateway:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.vpn_gateway;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/VPN_Gateway.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "diamond"
 
     expressroute:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.expressroute;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/ExpressRoute_Circuits.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "diamond"
 
     azure_bastion:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.azure_bastion;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Bastions.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     dns_zone:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.dns;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/DNS_Zones.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 64, height: 64 }
       fallback: "rectangle"
 
     private_endpoint:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.private_endpoint;"
-      default_size: { width: 40, height: 40 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Private_Endpoints.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 72, height: 66 }
       fallback: "ellipse"
 
     # ----- Storage -----
     storage_account:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.storage;"
-      default_size: { width: 50, height: 42 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/storage/Storage_Accounts.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 65, height: 52 }
       fallback: "cylinder"
 
     blob_storage:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.blob_storage;"
-      default_size: { width: 37, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/storage/Blob_Block.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 52, height: 68 }
       fallback: "cylinder"
 
     file_storage:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.file_storage;"
-      default_size: { width: 47, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/storage/Azure_Files.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 52, height: 68 }
       fallback: "document"
 
     queue_storage:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.queue_storage;"
-      default_size: { width: 37, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/storage/Queue_Storage.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 54, height: 68 }
       fallback: "cylinder"
 
     # ----- Database -----
     sql_database:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.sql_database;"
-      default_size: { width: 37, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/databases/SQL_Database.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 64, height: 64 }
       fallback: "cylinder"
 
     cosmos_db:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.cosmos_db;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/databases/Azure_Cosmos_DB.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 64, height: 64 }
       fallback: "cylinder"
 
     redis_cache:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.cache_redis;"
-      default_size: { width: 50, height: 42 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/databases/Cache_for_Redis.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 64, height: 52 }
       fallback: "cylinder"
 
     # ----- Security & Identity -----
     key_vault:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.key_vault;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/security/Key_Vaults.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     azure_ad:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.entra_id;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/identity/Azure_Active_Directory.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "ellipse"
 
     managed_identity:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.managed_identities;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/identity/Managed_Identities.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "actor"
 
     # ----- Integration -----
     api_management:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.api_management;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/integration/API_Management_Services.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 65, height: 60 }
       fallback: "rectangle"
 
     service_bus:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.service_bus;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/integration/Service_Bus.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 64, height: 64 }
       fallback: "rectangle"
 
     event_hub:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.event_hubs;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/analytics/Event_Hubs.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     logic_app:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.logic_apps;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/integration/Logic_Apps.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 70, height: 70 }
       fallback: "rounded_rectangle"
 
     # ----- Monitoring -----
     monitor:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.monitor;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/management_governance/Azure_Monitor.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 64, height: 64 }
       fallback: "ellipse"
 
     log_analytics:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.log_analytics;"
-      default_size: { width: 50, height: 44 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/management_governance/Log_Analytics_Workspaces.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     application_insights:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#68217A;shape=mxgraph.azure.application_insights;"
-      default_size: { width: 50, height: 65 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/devops/Application_Insights.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 80 }
       fallback: "ellipse"
 
     # ----- AI & ML -----
     cognitive_services:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.cognitive_services;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/ai_machine_learning/Cognitive_Services.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "ellipse"
 
     openai_service:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.azure_openai;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/ai_machine_learning/Azure_OpenAI.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "ellipse"
 
     machine_learning:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.machine_learning;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/ai_machine_learning/Azure_Machine_Learning.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 66, height: 68 }
       fallback: "ellipse"
 
     # ----- DevOps & Management -----
     devops:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.devops;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/devops/Azure_DevOps.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rounded_rectangle"
 
     resource_group:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.resource_group;"
-      default_size: { width: 50, height: 40 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/management_governance/Resource_Groups.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     subscription:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.subscriptions;"
-      default_size: { width: 50, height: 35 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/management_governance/Subscriptions.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     management_group:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.management_groups;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/management_governance/Management_Groups.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     # ----- General / Common -----
@@ -371,13 +379,13 @@ node_placement:
       fallback: "cloud"
 
     on_premises:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#505050;shape=mxgraph.azure.enterprise;"
-      default_size: { width: 50, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/general/Enterprise.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 68, height: 68 }
       fallback: "rectangle"
 
     user:
-      style: "sketch=0;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;fillColor=#0078D4;shape=mxgraph.azure.user;"
-      default_size: { width: 47, height: 50 }
+      style: "aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/identity/Users.svg;verticalLabelPosition=bottom;verticalAlign=top;"
+      default_size: { width: 47, height: 68 }
       fallback: "actor"
 ```
 
