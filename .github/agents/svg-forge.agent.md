@@ -167,18 +167,18 @@
 
 ### ブロッキング検証（最優先）
 
-| 検証項目                | ルール                                      | 失敗時       |
-| ----------------------- | ------------------------------------------- | ------------ |
-| **mxCell 完全性**       | mxCell 数 >= 2 + ノード数 + エッジ数        | BLOCK_OUTPUT |
-| **content 属性非空**    | content 属性が存在 AND length > 100         | BLOCK_OUTPUT |
+| 検証項目             | ルール                               | 失敗時       |
+| -------------------- | ------------------------------------ | ------------ |
+| **mxCell 完全性**    | mxCell 数 >= 2 + ノード数 + エッジ数 | BLOCK_OUTPUT |
+| **content 属性非空** | content 属性が存在 AND length > 100  | BLOCK_OUTPUT |
 
 ### 標準検証（自動修正可能）
 
-| 検証項目       | ルール                                       | 失敗時       |
-| -------------- | -------------------------------------------- | ------------ |
-| mxfile 構造    | mxfile/diagram/mxGraphModel/root が存在      | 構造を再生成 |
-| 参照整合       | エッジの source/target が存在するノード ID   | 参照修正     |
-| エンコーディング | content が適切に HTML エンコード             | 修正         |
+| 検証項目         | ルール                                     | 失敗時       |
+| ---------------- | ------------------------------------------ | ------------ |
+| mxfile 構造      | mxfile/diagram/mxGraphModel/root が存在    | 構造を再生成 |
+| 参照整合         | エッジの source/target が存在するノード ID | 参照修正     |
+| エンコーディング | content が適切に HTML エンコード           | 修正         |
 
 ### 実行順序
 
@@ -186,16 +186,17 @@
 2. standard_checks（修正可能なら自動修正）
 3. final_validation（全チェック通過確認）
 
-  on_all_pass:
-    action: proceed_to_output
+on_all_pass:
+action: proceed_to_output
 
-  on_blocking_fail:
-    action: auto_fix_and_retry
-    max_retries: 2
-    on_max_retries:
-      action: report_error_to_orchestrator
-      error_type: "CRITICAL_MXCELL_INCOMPLETE"
-```
+on_blocking_fail:
+action: auto_fix_and_retry
+max_retries: 2
+on_max_retries:
+action: report_error_to_orchestrator
+error_type: "CRITICAL_MXCELL_INCOMPLETE"
+
+````
 
 ## Steps
 
@@ -237,7 +238,7 @@
 context_update:
   execution.svg_path: "{output_path}"
   execution.current_phase: "svg_review"
-```
+````
 
 ## Error Handling
 
