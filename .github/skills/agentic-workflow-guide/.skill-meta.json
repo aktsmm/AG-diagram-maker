@@ -1,0 +1,8 @@
+{
+  "name": "agentic-workflow-guide",
+  "source": "aktsmm-Agent-Skills",
+  "description": "Design, review, and improve agent workflows & agent using SSOT, SRP, Fail Fast principles. Supports Prompt Chaining, Parallelization, Orchestrator-Workers patterns.",
+  "whenToUse": "**New Workflow Design** - Define agent roles, responsibilities, and execution order",
+  "categories": [],
+  "installedAt": "2026-01-15T01:54:29.947Z"
+}

@@ -4,6 +4,35 @@
 
 ---
 
+## v5.2 (2026-01-15)
+
+### Azure アイコン VS Code 互換性修正
+
+**ガイド文書**: [docs/azure-icon-vscode-compatibility.md](../docs/azure-icon-vscode-compatibility.md)
+
+| 対象                                   | 変更内容                                                               |
+| -------------------------------------- | ---------------------------------------------------------------------- |
+| **cloud-icons.instructions.md**        | v1.1 に更新。VS Code 互換性警告、新旧形式対照表、Azure2 パス構造を追加 |
+| **svg-forge-template.instructions.md** | 全 Azure アイコンのスタイルを `img/lib/azure2/` 形式に変更             |
+| **azure-icon-vscode-compatibility.md** | 新規作成。問題の詳細と修正ガイド                                       |
+
+**問題**:
+
+- VS Code 版 Draw.io Integration で `shape=mxgraph.azure.*` 形式の Azure アイコンが**青い四角形**として表示される
+- Web 版 draw.io では動作するが、VS Code 版ではシェイプライブラリの読み込みが不完全
+
+**解決策**:
+
+- Azure アイコンを `img/lib/azure2/**/*.svg` 形式（SVG 画像直接参照）に統一
+- `shape=mxgraph.azure.*` 形式を完全に廃止
+
+**影響範囲**:
+
+- 全 Azure アイコン定義（約 30 種類）を更新
+- 既存の `.drawio` ファイルは影響なし（再生成時に新形式が適用される）
+
+---
+
 ## v5.0 (2025-12-17)
 
 ### エージェントファイル v5.0 同期版

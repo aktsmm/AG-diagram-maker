@@ -1,9 +1,31 @@
-# クラウドアイコン使用ルール (v1.0)
+# クラウドアイコン使用ルール (v1.1)
 
 > **適用対象**: すべての draw.io 図面生成エージェント
-> **最終更新**: 2025-12-12
+> **最終更新**: 2026-01-15
 
 このインストラクションは、Azure および AWS リソースを含む図面を生成する際のアイコン使用ルールを定義します。
+
+---
+
+## ⚠️ VS Code Draw.io Integration 互換性に関する重要な注意
+
+### 問題概要
+
+VS Code 版 Draw.io Integration では、Azure アイコンの形式によって表示の可否が異なります。
+
+| 形式                            | Web 版 draw.io | VS Code 版 Draw.io  |
+| ------------------------------- | -------------- | ------------------- |
+| `shape=mxgraph.azure.*`         | ✅ 動作        | ❌ 青い四角形になる |
+| `image=img/lib/azure2/**/*.svg` | ✅ 動作        | ✅ 動作             |
+
+### 原因
+
+- `mxgraph.azure.*` 形式は Web 版では動作するが、VS Code 版ではシェイプライブラリの読み込みが不完全
+- `img/lib/azure2/` 形式は SVG 画像を直接参照するため、環境に依存せず確実に表示される
+
+### 結論
+
+**本リポジトリでは `img/lib/azure2/**/\*.svg` 形式を必須とする。\*\*
 
 ---
 
@@ -112,17 +134,121 @@ azure_icons:
     use_for: "リソースグループ"
   - image: "img/lib/azure2/management/Subscriptions.svg"
     use_for: "サブスクリプション"
+
+  # Integration
+  - image: "img/lib/azure2/integration/API_Management_Services.svg"
+    use_for: "API Management"
+  - image: "img/lib/azure2/integration/Logic_Apps.svg"
+    use_for: "Logic Apps"
+  - image: "img/lib/azure2/integration/Service_Bus.svg"
+    use_for: "Service Bus"
+
+  # Networking (追加)
+  - image: "img/lib/azure2/networking/Front_Doors.svg"
+    use_for: "Front Door"
+  - image: "img/lib/azure2/networking/ExpressRoute_Circuits.svg"
+    use_for: "ExpressRoute"
+  - image: "img/lib/azure2/networking/VPN_Gateway.svg"
+    use_for: "VPN Gateway"
+
+  # IoT
+  - image: "img/lib/azure2/iot/IoT_Hub.svg"
+    use_for: "IoT Hub"
+
+  # AI & Machine Learning
+  - image: "img/lib/azure2/ai_machine_learning/Azure_Machine_Learning.svg"
+    use_for: "Azure Machine Learning"
+  - image: "img/lib/azure2/ai_machine_learning/Cognitive_Services.svg"
+    use_for: "Cognitive Services"
+```
+
+### Azure2 ライブラリのパス構造
+
+```
+img/lib/azure2/
+├── ai_machine_learning/
+│   ├── Azure_Machine_Learning.svg
+│   └── Cognitive_Services.svg
+├── analytics/
+│   ├── Azure_Synapse_Analytics.svg
+│   └── Event_Hubs.svg
+├── compute/
+│   ├── App_Services.svg
+│   ├── Function_Apps.svg
+│   ├── Virtual_Machine.svg
+│   └── Azure_Kubernetes_Service.svg
+├── containers/
+│   └── Container_Instances.svg
+├── databases/
+│   ├── SQL_Database.svg
+│   ├── Azure_Cosmos_DB.svg
+│   └── Cache_for_Redis.svg
+├── devops/
+│   └── Azure_DevOps.svg
+├── identity/
+│   └── Azure_Active_Directory.svg
+├── integration/
+│   ├── API_Management_Services.svg
+│   ├── Logic_Apps.svg
+│   └── Service_Bus.svg
+├── iot/
+│   └── IoT_Hub.svg
+├── management_governance/
+│   ├── Azure_Monitor.svg
+│   └── Log_Analytics_Workspaces.svg
+├── networking/
+│   ├── Virtual_Networks.svg
+│   ├── Load_Balancers.svg
+│   ├── Application_Gateway.svg
+│   ├── Front_Doors.svg
+│   ├── ExpressRoute_Circuits.svg
+│   └── VPN_Gateway.svg
+├── security/
+│   ├── Key_Vaults.svg
+│   └── Azure_Sentinel.svg
+├── storage/
+│   ├── Storage_Accounts.svg
+│   └── Data_Lake_Storage.svg
+└── web/
+    └── App_Service_Plans.svg
 ```
 
 ### 非推奨フォーマット（使用禁止）
 
 ```xml
-<!-- ❌ 動作しない形式 -->
-<mxCell style="shape=mxgraph.azure.Azure_Firewall;..." />
+<!-- ❌ 動作しない形式（VS Code で青い四角形になる） -->
+<mxCell style="shape=mxgraph.azure.Azure_Firewall;fillColor=#0078D4;..." />
+<mxCell style="sketch=0;shape=mxgraph.azure.virtual_machine;fillColor=#0078D4;..." />
+<mxCell style="shape=mxgraph.azure.front_door;fillColor=#0078D4;..." />
 
-<!-- ✅ 正しい形式 -->
-<mxCell style="image;image=img/lib/azure2/networking/Azure_Firewall.svg;..." />
+<!-- ✅ 正しい形式（推奨：VS Code + Web 両対応） -->
+<mxCell style="aspect=fixed;html=1;points=[];align=center;image;fontSize=12;image=img/lib/azure2/networking/Azure_Firewall.svg;verticalLabelPosition=bottom;verticalAlign=top;" />
 ```
+
+### スタイル属性の違い
+
+| 属性          | 旧形式 (mxgraph.azure) | 新形式 (azure2)             |
+| ------------- | ---------------------- | --------------------------- |
+| `shape`       | `mxgraph.azure.*`      | 不要                        |
+| `image`       | なし                   | `img/lib/azure2/**/*.svg`   |
+| `aspect`      | なし                   | `fixed`（アスペクト比固定） |
+| `fillColor`   | `#0078D4`              | 不要（SVG に含まれる）      |
+| `strokeColor` | 指定                   | 不要                        |
+
+### 主要 Azure サービスの新旧形式対照表
+
+| サービス        | 旧形式（❌ 禁止）                            | 新形式（✅ 必須）                                              |
+| --------------- | -------------------------------------------- | -------------------------------------------------------------- |
+| Front Door      | `shape=mxgraph.azure.front_door`             | `image=img/lib/azure2/networking/Front_Doors.svg`              |
+| App Service     | `shape=mxgraph.azure.app_service`            | `image=img/lib/azure2/compute/App_Services.svg`                |
+| Azure AD        | `shape=mxgraph.azure.azure_active_directory` | `image=img/lib/azure2/identity/Azure_Active_Directory.svg`     |
+| Blob Storage    | `shape=mxgraph.azure.blob_storage`           | `image=img/lib/azure2/storage/Blob_Block.svg`                  |
+| ExpressRoute    | `shape=mxgraph.azure.expressroute`           | `image=img/lib/azure2/networking/ExpressRoute_Circuits.svg`    |
+| Virtual Network | `shape=mxgraph.azure.virtual_network`        | `image=img/lib/azure2/networking/Virtual_Networks.svg`         |
+| SQL Database    | `shape=mxgraph.azure.sql_database`           | `image=img/lib/azure2/databases/SQL_Database.svg`              |
+| Functions       | `shape=mxgraph.azure.function_apps`          | `image=img/lib/azure2/compute/Function_Apps.svg`               |
+| Key Vault       | `shape=mxgraph.azure.key_vault`              | `image=img/lib/azure2/security/Key_Vaults.svg`                 |
+| API Management  | `shape=mxgraph.azure.api_management`         | `image=img/lib/azure2/integration/API_Management_Services.svg` |
 
 ---
 
@@ -258,13 +384,74 @@ aws_icons:
 
 ---
 
-## draw.io でのライブラリ有効化
+## 📋 draw.io でのライブラリ有効化（事前設定）
 
-ユーザーが draw.io でアイコンを表示するには、以下の設定が必要：
+> **⚠️ 重要**: この設定をしないと、生成した `.drawio` ファイルを開いてもアイコンが正しく表示されない場合があります。
 
-1. draw.io を開く
-2. 左下の「+ その他の図形」をクリック
-3. 「Azure」または「AWS」にチェックを入れる
-4. 「適用」をクリック
+### 設定手順
 
-これにより、左側のシェイプパネルに Azure/AWS アイコンが表示される。
+#### VS Code Draw.io Integration の場合
+
+1. draw.io エディタで任意の `.drawio` ファイルを開く
+2. 左下の「**+ その他の図形**」（または「+ More Shapes」）をクリック
+3. 「**ネットワーク**」カテゴリを展開
+4. 以下にチェックを入れる：
+   - ✅ **Azure** - Azure アイコンライブラリ
+   - ✅ **AWS17** / **AWS18** / **AWS 2026** - AWS アイコンライブラリ（必要に応じて）
+5. 「**設定を保存**」にチェックが入っていることを確認
+6. 「**適用**」をクリック
+
+#### Web 版 draw.io (app.diagrams.net) の場合
+
+1. https://app.diagrams.net を開く
+2. 左下の「**+ その他の図形**」をクリック
+3. 「**ネットワーク**」セクションで **Azure** / **AWS** にチェック
+4. 「**適用**」をクリック
+
+### 設定画面イメージ
+
+```
+┌─────────────────────────────────────┐
+│ 図形                            × │
+├─────────────────────────────────────┤
+│ ネットワーク                        │
+│  ☐ Alibaba Cloud                   │
+│  ☐ Allied Telesis                  │
+│  ☑ AWS17                           │
+│  ☑ AWS18                           │
+│  ☑ AWS 2026                        │
+│  ☐ AWS 3D                          │
+│  ☑ Azure        ← ★必須★          │
+│  ☐ Cloud & Enterprise              │
+│  ☐ Cisco                           │
+│  ...                               │
+├─────────────────────────────────────┤
+│ ☐ Labels  ☑ 設定を保存   [適用]    │
+└─────────────────────────────────────┘
+```
+
+### 設定が反映されない場合
+
+| 症状                       | 対処法                                                                 |
+| -------------------------- | ---------------------------------------------------------------------- |
+| Azure アイコンが青い四角形 | 「Azure」ライブラリにチェックが入っているか確認                        |
+| 設定が保存されない         | 「設定を保存」にチェックを入れて再度適用                               |
+| VS Code 再起動後に戻る     | VS Code の設定で `hediet.vscode-drawio.customLibraries` を確認         |
+| それでも表示されない       | `img/lib/azure2/` 形式を使用しているか確認（本インストラクション準拠） |
+
+### 補足: AWS アイコンライブラリの違い
+
+| ライブラリ | 説明                               |
+| ---------- | ---------------------------------- |
+| AWS17      | 2017 年版 AWS アイコン（レガシー） |
+| AWS18      | 2018 年版 AWS アイコン             |
+| AWS 2026   | 最新版 AWS アイコン（推奨）        |
+| AWS 3D     | 3D スタイルの AWS アイコン         |
+
+---
+
+## 関連ドキュメント
+
+- [Azure アイコン VS Code 互換性修正ガイド](../../docs/azure-icon-vscode-compatibility.md)
+- [Draw.io Azure Icons Library (GitHub)](https://github.com/jgraph/drawio/tree/dev/src/main/webapp/img/lib/azure2)
+- [VS Code Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
