@@ -6,45 +6,7 @@
 - draw.io での編集可能性を常に優先し、各ラウンドで確認する。
 
 > **📋 詳細ルールは `.github/instructions/` 配下を参照。変更履歴は `.github/CHANGELOG.md` を参照。**
-
-## 📋 共通インストラクション一覧
-
-| インストラクション           | パス                                                                | 内容                                      |
-| ---------------------------- | ------------------------------------------------------------------- | ----------------------------------------- |
-| **エージェント共通**         | `.github/instructions/agent-common.instructions.md`                 | 共通構造、WorkflowContext、冪等性         |
-| **ワークフロー**             | `.github/instructions/agent-workflow-v5.instructions.md`            | 全体ワークフロー定義 (v5.0)               |
-| **責務分離 v5.1**            | `.github/instructions/agent-responsibilities-v5.instructions.md`    | 5層責務分離 (Parse/Generate/Validate/...) |
-| **決定的変換**               | `.github/instructions/deterministic-transform.instructions.md`      | IR → mxCell の決定的変換ルール            |
-| **ロギング**                 | `.github/instructions/logging-traceability.instructions.md`         | 全フェーズのロギング仕様                  |
-| **draw.io 互換性**           | `.github/instructions/drawio-compatibility.instructions.md`         | mxCell 構造、スタイル、検証               |
-| **クラウドアイコン**         | `.github/instructions/cloud-icons.instructions.md`                  | Azure/AWS アイコン使用ルール              |
-| **出力形式**                 | `.github/instructions/output-format.instructions.md`                | .drawio vs .drawio.svg 選択               |
-| **品質ゲート**               | `.github/instructions/quality-gates.instructions.md`                | mxCell 検証、保存前ゲート                 |
-
-## 📋 スキーマ一覧
-
-| スキーマ         | パス                                          | 内容                       |
-| ---------------- | --------------------------------------------- | -------------------------- |
-| **DiagramIR**    | `.github/schemas/diagram-ir.schema.json`      | 中間表現の JSON Schema     |
-| **Config**       | `.github/schemas/config.schema.json`          | 環境設定の JSON Schema     |
-| **SubAgent Res** | `.github/schemas/subagent-response.schema.md` | runSubagent 戻り値の標準形 |
-
-## エージェント構成（3エージェント）
-
-| Agent | 用途 |
-|-------|------|
-| `flow-orchestrator` | 全体統括 + 入力分析 + **Review Engine 内蔵** |
-| `manifest-gateway` | 統合Gateway（text/visual/portrait対応） |
-| `svg-forge` | 図面生成 + 自己検証 + **保存前ゲート** |
-
-## 標準フロー
-
-1. **入力分析**（Orchestrator内蔵、5秒）→ Checkpoint 1
-2. **Gateway**（マニフェスト作成）→ Checkpoint 2
-3. **マニフェストレビュー**（Orchestrator内蔵）→ Checkpoint 3
-4. **図面生成 + 保存前ゲート**（svg-forge）→ Checkpoint 4
-5. **図面レビュー**（Orchestrator内蔵）→ Checkpoint 5
-6. **完了報告**
+> **📋 インストラクション/スキーマ/エージェント/フローの詳細一覧は `AGENTS.md` を参照。**
 
 ## 🚨 必須ルール（サマリ）
 

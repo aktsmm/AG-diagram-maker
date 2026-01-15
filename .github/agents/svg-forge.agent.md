@@ -163,51 +163,28 @@
 
 ## Step 4: Self-Validation（自己検証）v4.2 強化版
 
-```yaml
-self_validation:
-  # v4.2: ブロッキング検証を先頭に追加
-  blocking_checks:
-    - name: "mxCell 完全性（ブロッキング）"
-      priority: 1 # 最優先
-      rule: |
-        expected_count = 2 + node_count + edge_count
-        actual_count = count(<mxCell in content)
-        MUST: actual_count >= expected_count
-      on_fail:
-        action: BLOCK_OUTPUT # 保存を許可しない
-        auto_fix: |
-          1. マニフェストからノード/エッジを再列挙
-          2. 各要素に対応する mxCell を生成
-          3. 既存の content を再構築
-        message: "mxCell不足（期待: {expected}, 実際: {actual}）。自動修復を試行します。"
+> **📋 詳細な検証ルールは `quality-gates.instructions.md` を参照**
 
-    - name: "content 属性の非空チェック（ブロッキング）"
-      priority: 2
-      rule: content属性が存在 AND content.length > 100
-      on_fail:
-        action: BLOCK_OUTPUT
-        message: "content属性が空または短すぎます。draw.ioで開けません。"
+### ブロッキング検証（最優先）
 
-  standard_checks:
-    - name: "mxfile 構造"
-      rule: content 属性に mxfile/diagram/mxGraphModel/root が存在
-      on_fail: 構造を再生成
+| 検証項目                | ルール                                      | 失敗時       |
+| ----------------------- | ------------------------------------------- | ------------ |
+| **mxCell 完全性**       | mxCell 数 >= 2 + ノード数 + エッジ数        | BLOCK_OUTPUT |
+| **content 属性非空**    | content 属性が存在 AND length > 100         | BLOCK_OUTPUT |
 
-    - name: "mxCell 定義"
-      rule: 全ノードが mxCell id="N" で定義されている
-      on_fail: SVG要素を mxCell に変換
+### 標準検証（自動修正可能）
 
-    - name: "参照整合"
-      rule: エッジの source/target が存在するノード ID を参照
-      on_fail: 参照エラーを修正
+| 検証項目       | ルール                                       | 失敗時       |
+| -------------- | -------------------------------------------- | ------------ |
+| mxfile 構造    | mxfile/diagram/mxGraphModel/root が存在      | 構造を再生成 |
+| 参照整合       | エッジの source/target が存在するノード ID   | 参照修正     |
+| エンコーディング | content が適切に HTML エンコード             | 修正         |
 
-    - name: "エンコーディング"
-      rule: content 属性が適切に HTML エンコードされている
-      on_fail: エンコーディング修正
+### 実行順序
 
-  execution_order: 1. blocking_checks（失敗時は即座にブロック）
-    2. standard_checks（修正可能なら自動修正）
-    3. final_validation（全チェック通過確認）
+1. blocking_checks（失敗時は即座にブロック）
+2. standard_checks（修正可能なら自動修正）
+3. final_validation（全チェック通過確認）
 
   on_all_pass:
     action: proceed_to_output
@@ -242,28 +219,16 @@ self_validation:
 
 ## 保存前ゲート（v4.2 新規）
 
-```yaml
-pre_save_gate:
-  description: "保存前の最終確認。失敗時は保存をブロック。"
+> **📋 詳細は `quality-gates.instructions.md` を参照**
 
-  checks:
-    - mxcell_count_valid: "mxCell数 >= 2 + ノード数 + エッジ数"
-    - content_not_empty: "content属性が有効な内容を持つ"
-    - all_nodes_have_mxcell: "全ノードにmxCell定義が存在"
-    - all_edges_have_mxcell: "全エッジにmxCell定義が存在"
+| チェック項目           | 条件                                    |
+| ---------------------- | --------------------------------------- |
+| mxcell_count_valid     | mxCell 数 >= 2 + ノード数 + エッジ数    |
+| content_not_empty      | content 属性が有効な内容を持つ          |
+| all_nodes_have_mxcell  | 全ノードに mxCell 定義が存在            |
+| all_edges_have_mxcell  | 全エッジに mxCell 定義が存在            |
 
-  on_pass:
-    action: proceed_to_save
-    log: "保存前ゲート通過。ファイル出力を開始します。"
-
-  on_fail:
-    action: block_and_retry
-    max_retries: 2
-    log: "保存前ゲート失敗。自動修復を試行します（{retry}/{max}）。"
-    on_max_retries:
-      action: report_to_orchestrator
-      error: "CRITICAL: SVG生成に失敗しました。mxCell定義が不完全です。"
-```
+**失敗時**: 自動修復 → 再試行（max 2 回）→ 超過時は Orchestrator に報告
 
 ## WorkflowContext 更新
 
