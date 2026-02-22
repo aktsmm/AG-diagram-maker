@@ -53,3 +53,8 @@ outputs/*
 # Copilot/AI生成の一時キャッシュ
 .copilot/
 .aider/
+
+# Copilot agent artifacts (keep local in public repos)
+/research/
+/.github/skills/
+/output_sessions/
