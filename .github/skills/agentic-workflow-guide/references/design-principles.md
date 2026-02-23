@@ -266,3 +266,4 @@ Choose formats that minimize cognitive load for LLMs:
 - [Writing tools for AI agents - Anthropic](https://www.anthropic.com/engineering/writing-tools-for-agents)
 - [SOLID Principles](https://en.wikipedia.org/wiki/SOLID)
 - [12-Factor App](https://12factor.net/)
+
