@@ -267,8 +267,6 @@ else:
 
 **Solution:** Simplicity First
 
-> (Quote removed; see linked references.)
-
 ---
 
 ### Black Box
@@ -398,3 +396,4 @@ After review completion:
 - [design-principles.md](design-principles.md) - Design principles details
 - [workflow-patterns.md](workflow-patterns.md) - Workflow pattern details
 - [context-engineering.md](context-engineering.md) - Context management for long tasks
+

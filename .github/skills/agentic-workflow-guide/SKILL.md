@@ -26,8 +26,7 @@ A comprehensive guide for designing, reviewing, and improving agent workflows ba
 | **Tier 2: Quality**   | Transparency, Gate/Checkpoint, DRY, ISP, Idempotency                        | Recommended for production |
 | **Tier 3: Scale**     | Human-in-the-Loop, KISS, Loose Coupling, Graceful Degradation               | Advanced patterns          |
 
-**Anthropic's Key Insight:**
-
+**Key insight:**
 > (Quote removed; see linked references.)
 
 ## Workflow Patterns
@@ -134,9 +133,9 @@ For long-running agents, manage context as a finite resource:
 | **Sub-agent Architectures** | Complex research, parallel exploration |
 | **Just-in-Time Retrieval**  | Large codebases, dynamic data          |
 
-**Key Insight:**
-
-> (Quote removed; see linked references.)
+**Key insight:**
+- Start with simple prompts/workflows and only add multi-step agent patterns when needed.
+- Treat context as limited; keep the main instructions lean and move details into reference files.
 
 ## Scaffold Workflow
 
@@ -210,3 +209,4 @@ my-workflow/
 - [Prompt Engineering Tutorial - Anthropic](https://github.com/anthropics/prompt-eng-interactive-tutorial)
 - [subagent-driven-development - obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/subagent-driven-development)
 - [dispatching-parallel-agents - obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/dispatching-parallel-agents)
+
