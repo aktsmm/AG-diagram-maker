@@ -32,8 +32,7 @@ High tokens  ████░░░░░░░░░░░░ Low accuracy (cont
 
 ### Key Insight
 
-> (Quote removed; see linked references.)
-
+**Key insight:** Treat context as limited; keep the highest-signal items and move the rest into durable notes/references.
 **Principle:** Find the smallest set of high-signal tokens that maximize the likelihood of desired outcomes.
 
 ---
@@ -289,4 +288,5 @@ context = read_file(relevant_files[0])         # ✅ On-demand
 - [Effective context engineering for AI agents - Anthropic](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents)
 - [Building effective agents - Anthropic](https://www.anthropic.com/engineering/building-effective-agents)
 - [How we built our multi-agent research system - Anthropic](https://www.anthropic.com/engineering/multi-agent-research-system)
+
 

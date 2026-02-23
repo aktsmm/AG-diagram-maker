@@ -27,7 +27,7 @@ A comprehensive guide for designing, reviewing, and improving agent workflows ba
 | **Tier 3: Scale**     | Human-in-the-Loop, KISS, Loose Coupling, Graceful Degradation               | Advanced patterns          |
 
 **Key insight:**
-> (Quote removed; see linked references.)
+- Start simple and only add multi-step agent patterns when the simpler approach stops working.
 
 ## Workflow Patterns
 
@@ -209,4 +209,5 @@ my-workflow/
 - [Prompt Engineering Tutorial - Anthropic](https://github.com/anthropics/prompt-eng-interactive-tutorial)
 - [subagent-driven-development - obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/subagent-driven-development)
 - [dispatching-parallel-agents - obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/dispatching-parallel-agents)
+
 
